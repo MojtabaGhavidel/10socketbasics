@@ -9,3 +9,10 @@ var socket = io();
 socket.on('connect', function(){
 console.log('msg from FronEnd : User connected');
 });
+
+
+socket.on('message', function (message){
+	console.log('New message:');
+	console.log(message.text);
+
+});
