@@ -20,7 +20,7 @@ socket.on('message', function (message){
 	console.log(message.text); 
 
 	//ezafe kardane payame jadid be html
-	jQuery('.messages').append('<p><strong>' + momentTimestamp.local.format('h mm:a') + '</strong>' +message.text  + '</p>');
+	jQuery('.messages').append('<p><strong>' + momentTimestamp.local().format('h mm:a') + '</strong>' + message.text  + '</p>');
 
 });
 
