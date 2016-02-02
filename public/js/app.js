@@ -14,11 +14,13 @@ console.log('msg from FronEnd : User connected');
 //dar inja frontEnd muntazere event hast va vaghti rokh mide on ro migire va print mikune
 //har bar ke messag i miyad ejra mishe
 socket.on('message', function (message){
+
+	var momentTimestamp = moment.utc(message.timestamp);
 	console.log('New message:');
 	console.log(message.text); 
 
 	//ezafe kardane payame jadid be html
-	jQuery('.messages').append('<p>' + message.text + '</p>');
+	jQuery('.messages').append('<p><strong>' + momentTimestamp.local.format('h mm:a') + '</strong>' +message.text  + '</p>');
 
 });
 

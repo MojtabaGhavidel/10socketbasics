@@ -1,6 +1,6 @@
 //process bekhatere heroku hast
 var PORT = process.env.PORT || 3000;
-
+var moment = require('moment');
 var express = require('express');
 //1 app e express jadid misazim
 var app = express();
@@ -37,6 +37,10 @@ io.on('connection', function (socket) {
 	socket.on('message', function (message){
 		console.log('Message recieved :' + message.text);
 
+		//value of timestampe JS ro barmigardone
+		message.timestamp = moment().valueOf();
+
+
 		//in bakhsh baraye CLIENT emit mikune nabashe payam ha send neishan
 		//io.emit = baraye khode ersal kunande ham mire
 		//socket.broadcast.emit('message', message)
@@ -50,7 +54,8 @@ io.on('connection', function (socket) {
 	//in bakhsh ro dar DEV CONSOLE bezarim payam ro mifreste
 
 	socket.emit('message', {
-		text :'Welcome to the chat application!'
+		text :'Welcome to the chat application!',
+		timestamp: moment.valueOf()
 	});
 
 });
