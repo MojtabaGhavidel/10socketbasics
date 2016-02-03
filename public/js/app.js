@@ -1,8 +1,12 @@
-
+var name = getQueryVariable('name') || 'Nashenas ';
+var room =  getQueryVariable('room');
 	//vasl shudan be server.
 		//io dar inja function hast va tavasote ma ijad nashude.
 		//vaghti library socket io ro load kardim define shud.
 var socket = io();
+
+console.log(name + ' joined room : ' +room);
+
 
 //vaghti be server vasl shudim dar developer tools console mikunim
 //parametre aval esme event parametre  function i ke mikhaim rokh bede
@@ -16,17 +20,21 @@ console.log('msg from FronEnd : User connected');
 socket.on('message', function (message){
 
 	var momentTimestamp = moment.utc(message.timestamp);
+	//.messageSSSS kelase div dar index hast
+	var $message = jQuery('.messages');
+
 	console.log('New message:');
 	console.log(message.text); 
 
 	//ezafe kardane payame jadid be html
-	jQuery('.messages').append('<p><strong>' + momentTimestamp.local().format('h mm:a') + '</strong>' + message.text  + '</p>');
+	$message.append('<p><strong>' + message.name + momentTimestamp.local().format('h mm:a')  + '</strong></p>');
+	$message.append('<p>' + message.text  + '</p>');
 
 });
 
 //Handles submiting of new message 
 //(in bakhsh daryaft va ersal payam ro az tarigh form anjam mide)<<<<<<<
-//dalile gozashtane alamate $ in hast ke vegim in motaghyer 1 morede JQ ro dar khodesh dare.yani be methodhaye JQ dastresi dare
+//dalile gozashtane alamate $ in hast ke vegim in motaghyer 1morede JQ ro dar khodesh dare.yani be methodhaye JQ dastresi dare
 var $form = jQuery('#message-form');
 
 $form.on('submit', function (event) {
@@ -35,8 +43,13 @@ $form.on('submit', function (event) {
 
 	//ersale payam be server.noE event = message
 	socket.emit('message', {
+
+		//esme kenare payam.name 2vom moteghayer hast
+		name : name,
+
 		//.val = method
 		text: $form.find('#text-box').val()
+
 	});
 			///matne dakhele text ro pak kun
 			$('#text-box').val('');

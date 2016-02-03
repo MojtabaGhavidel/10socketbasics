@@ -54,6 +54,7 @@ io.on('connection', function (socket) {
 	//in bakhsh ro dar DEV CONSOLE bezarim payam ro mifreste
 
 	socket.emit('message', {
+		name : 'System ',
 		text :'Welcome to the chat application!',
 		timestamp: moment.valueOf()
 	});
