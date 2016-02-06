@@ -35,6 +35,29 @@ app.use(express.static(__dirname + '/public'));
 io.on('connection', function (socket) {
 	console.log('User connected via socket.io!');
 
+
+	//
+	socket.on('disconnect', function(){
+
+		var userData = clientInfo[socket.id];
+
+		//check mikunim ke aya baraye in user DATA darim (karbar ozve chatroom hast?)
+		if (typeof clientInfo[socket.id] !== 'undefined'){
+			//larbar az room leave mishe
+			socket.leave(userData.room);
+
+			//paya,e leave
+			io.to(userData.room).emit('message',{
+				name: 'System',
+				text: userData.name + ' hast left!',
+				timestamp: moment().valueOf()
+			});
+			//pak kardane data az CLIENT INFO
+			//'delete' ejaze mide attribute ro az 1 object pak kunim
+			delete clientInfo[socket.id];
+		}
+	});
+
 	//req = objecti ke dar app.js dar 'joinRoom" sakhtim {name:name, room :room}
 	//server REQUEST ro migire
 	socket.on('joinRoom', function (req){
@@ -51,7 +74,7 @@ io.on('connection', function (socket) {
 			name : 'system',
 			text : req.name + ' has joined',
 			timeStamp : moment().valueOf()
-		})
+		});
 	});
 
 	//mikham payam ha ro vase hame befrestim
@@ -62,7 +85,7 @@ io.on('connection', function (socket) {
 	socket.on('message', function (message){
 		console.log('Message recieved :' + message.text);
 
-		//value of timestampe JS ro barmigardone
+		//value of timestamp e JS ro barmigardone
 		message.timestamp = moment().valueOf();
 
 
