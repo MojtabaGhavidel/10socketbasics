@@ -7,11 +7,24 @@ var socket = io();
 
 console.log(name + ' joined room : ' +room);
 
+//UPDATE  H1 TAG
+ jQuery('.room-title').text(room);
+
+
 
 //vaghti be server vasl shudim dar developer tools console mikunim
 //parametre aval esme event parametre  function i ke mikhaim rokh bede
+//function inja CALL BACK be hesab miad.
 socket.on('connect', function(){
-console.log('msg from FronEnd : User connected');
+	console.log('msg from FronEnd : User connected');
+	//'joinRoom' ro khudemon neveshtim.special nist
+	//bade 	joinRoom 1 object misazim {}
+	//darkhast etesal be roomi ke karbar entekhab karde
+	socket.emit('joinRoom',{
+		name : name,
+		room : room
+	});
+
 });
 
 //tabE call back data ro migire ke dar inja 'message' object hast dar server.js sakhte shude
