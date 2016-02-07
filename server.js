@@ -36,6 +36,30 @@ io.on('connection', function (socket) {
 	console.log('User connected via socket.io!');
 
 
+
+	// [list all connected sockets]
+	//The Object.keys() method returns an array of a given object's own enumerable
+	//properties, in the same order as that provided
+	// by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well)
+	var list = Object.keys(io.sockets.sockets);
+	console.log("ALL Connected sockets:")
+	list.forEach(function(id) {
+    console.log("ID:",id)  // socketId
+})
+
+
+	if(io.sockets.adapter.rooms) {
+		console.log(io.sockets.adapter.rooms);
+	} else {
+		console.log('NO ROOMS');
+	}
+	//Object.keys(io.sockets.adapter.rooms["LOTR"].sockets);
+
+
+
+
+
+
 	//
 	socket.on('disconnect', function(){
 
